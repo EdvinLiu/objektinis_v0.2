@@ -152,13 +152,14 @@ int main()
 	
 	cout << "Pasirinkite, kaip skaiciuoti bala ( v - vidurkis, m - mediana):";
 	cin >> pasirinkite;
-	cout << "Vardas		Pavarde		" << (pasirinkite == 'v' ? "galutinis (Vid.)" : "Galutinis (Med.)") << endl;
+	cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde"  << setw(15)
+		<< (pasirinkite == 'v' ? "galutinis(Vid.)" : "Galutinis(Med.)") << endl;
 
 	for (const auto& studentas : studentai)
 	{
 		double galutinisBalas = (pasirinkite == 'v')? galutinis(studentas.namuDarbai, studentas.egzaminas) : mediana(studentas.namuDarbai, studentas.egzaminas);
-		cout << studentas.vardas << "	" << studentas.pavarde
-			<< "		" << fixed << setprecision(2)
+		cout << setw(15) << left << studentas.vardas << setw(15) << studentas.pavarde
+			<< setw(10) << fixed << setprecision(2)
 			<< galutinisBalas << endl;
 	}
 
