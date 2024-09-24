@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <limits>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 struct Studentas
@@ -32,6 +34,13 @@ double mediana(const vector<int>& nd, int egzaminas)
 
 }
 
+int generuoti_atsitiktini(int min, int max)
+{
+	srand(time(nullptr)); // Nustatome atsitiktinį skaičių generatoriaus pradinę vertę
+	// Sugeneruojame atsitiktinę reikšmę tarp min ir max
+	return min + rand() % (max - min + 1);
+}
+
 int main()
 {
 	vector<Studentas> studentai;
@@ -50,24 +59,42 @@ int main()
 		cout << "Iveskite studento pavarde: ";
 		getline(cin, studentai[i].pavarde);
 
-		cout << "Iveskite namu darbu pazymius (norint baigti, iveskite neigiama skaiciu arba spauskite Enter):\n";
-		int pazymys;
-		while (true)
+		char pasirinkimas;
+		cout << "Ar norite patys ivesti namu darbu ir egzamino pazymius? (t/n): ";
+		cin >> pasirinkimas;
+
+		if (pasirinkimas == 't')
 		{
-			string input;
-			getline(cin, input);
-			if (input.empty()) break;
+			cout << "Iveskite namu darbu pazymius (norint baigti, iveskite neigiama skaiciu arba spauskite Enter):\n";
+			int pazymys;
+			while (true)
+			{
+				string input;
+				getline(cin, input);
+				if (input.empty()) break;
 
-			pazymys = stoi(input);
+				pazymys = stoi(input);
 
-			if (pazymys < 0) break;
+				if (pazymys < 0) break;
 
-			studentai[i].namuDarbai.push_back(pazymys);
+				studentai[i].namuDarbai.push_back(pazymys);
 
+			}
+
+			cout << "Iveskite egzamino pazymi: ";
+			cin >> studentai[i].egzaminas;
 		}
+		else
+		{
+			int ndSk = generuoti_atsitiktini(1, 10);
+			for (int j = 0; j < ndSk; j++)
+			{
+				int pazymys = generuoti_atsitiktini(1, 10);
+				studentai[i].namuDarbai.push_back(pazymys);
+			}
 
-		cout << "Iveskite egzamino pazymi: ";
-		cin >> studentai[i].egzaminas;
+			studentai[i].egzaminas = generuoti_atsitiktini(1, 10);
+		}
 
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
