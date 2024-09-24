@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <numeric>
 #include <algorithm>
+#include <limits>
+#include <string>
 
 using namespace std;
 struct Studentas
@@ -36,32 +38,39 @@ int main()
 	int studentuSkaicius;
 	cout << "Iveskite studentu skaiciu:";
 	cin >> studentuSkaicius;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	studentai.resize(studentuSkaicius);
 	
 	for (int i = 0; i < studentuSkaicius; i++)
 	{
 		cout << "Studentas " << i + 1 << ":\n";
 		cout << "Iveskite studento varda: ";
-		cin >> studentai[i].vardas;
+		getline(cin, studentai[i].vardas);
 
 		cout << "Iveskite studento pavarde: ";
-		cin >> studentai[i].pavarde;
+		getline(cin, studentai[i].pavarde);
 
-		int ndSk;
-		cout << "Iveskite namu darbu skaiciu: ";
-		cin >> ndSk;
-		studentai[i].namuDarbai.resize(ndSk);
-
-		cout << "Iveskite visu namu darbu pazymius: ";
-		for (int j = 0; j < ndSk; j++)
+		cout << "Iveskite namu darbu pazymius (norint baigti, iveskite neigiama skaiciu arba spauskite Enter):\n";
+		int pazymys;
+		while (true)
 		{
-			cin >> studentai[i].namuDarbai[j];
+			string input;
+			getline(cin, input);
+			if (input.empty()) break;
+
+			pazymys = stoi(input);
+
+			if (pazymys < 0) break;
+
+			studentai[i].namuDarbai.push_back(pazymys);
+
 		}
 
 		cout << "Iveskite egzamino pazymi: ";
 		cin >> studentai[i].egzaminas;
-	}
 
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	char pasirinkite;
 	cout << "Pasirinkite, kaip skaiciuoti bala ( v - vidurkis, m - mediana):";
 	cin >> pasirinkite;
