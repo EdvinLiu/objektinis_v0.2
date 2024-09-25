@@ -1,4 +1,4 @@
-﻿#include "library.h"
+#include "library.h"
 #include "Functions.h"
 #include "Studentas.h"
 
@@ -39,7 +39,7 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             if (pasirinkimas == 't') {
-                cout << "Iveskite namu darbu pazymius (norint baigti, iveskite neigiama skaiciu arba spauskite Enter):\n";
+                cout << "Iveskite namu darbu pazymius (norint baigti spauskite Enter):\n";
                 int pazymys;
                 while (true) {
                     string input;
@@ -48,13 +48,31 @@ int main() {
 
                     pazymys = stoi(input);
 
-                    if (pazymys < 0) break;
-
-                    studentai[i].namuDarbai.push_back(pazymys);
+                    try
+                    {
+                        if (pazymys > 10)
+                            throw runtime_error("Pazymiai negali buti > 10");
+                        if (pazymys < 0) break;
+                        studentai[i].namuDarbai.push_back(pazymys);
+                    }
+                    catch (runtime_error& e)
+                    {
+                        cout << " Klaida" << e.what() << endl;
+                    }
                 }
 
                 cout << "Iveskite egzamino pazymi: ";
-                cin >> studentai[i].egzaminas;
+                try
+                {
+                    cin >> studentai[i].egzaminas;
+                    if (studentai[i].egzaminas < 0)
+                        throw runtime_error("Ivestas neigiamas skaicius");
+                    if (studentai[i].egzaminas > 10)
+                        throw runtime_error("Pazymiai negali buti > 10");
+                }
+                catch(runtime_error& e) {
+                    cout << "Klaida" << e.what() << endl;
+                }
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
             else {
