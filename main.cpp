@@ -52,7 +52,8 @@ int main() {
                     {
                         if (pazymys > 10)
                             throw runtime_error("Pazymiai negali buti > 10");
-                        if (pazymys < 0) break;
+                        if (pazymys < 0) 
+                            throw runtime_error("Pazymiai negali buti < 0");
                         studentai[i].namuDarbai.push_back(pazymys);
                     }
                     catch (runtime_error& e)
