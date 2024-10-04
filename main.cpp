@@ -2,7 +2,6 @@
 #include "Functions.h"
 #include "Studentas.h"
 
-using namespace std;
 
 int main() {
     vector<Studentas> studentai;
@@ -13,7 +12,7 @@ int main() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     if (pasirinkite == 'y') {
-        cout << "failo pavadinimas: ";
+        cout << "Failo pavadinimas: ";
         string failas;
         cin >> failas;
         nuskaityti_faila(failas, studentai);
@@ -40,25 +39,27 @@ int main() {
 
             if (pasirinkimas == 't') {
                 cout << "Iveskite namu darbu pazymius (norint baigti spauskite Enter):\n";
-                int pazymys;
+                int pazym;
                 while (true) {
                     string input;
                     getline(cin, input);
                     if (input.empty()) break;
 
-                    pazymys = stoi(input);
+                    pazym = stoi(input);
 
                     try
                     {
-                        if (pazymys > 10)
+                        if (pazym > 10)
                             throw runtime_error("Pazymiai negali buti > 10");
-                        if (pazymys < 0) 
+                        if (pazym < 0) 
                             throw runtime_error("Pazymiai negali buti < 0");
-                        studentai[i].namuDarbai.push_back(pazymys);
+                        studentai[i].namuDarbai.push_back(pazym);
                     }
                     catch (runtime_error& e)
                     {
-                        cout << " Klaida" << e.what() << endl;
+                        cout << " Klaida " << e.what() << endl;
+                        cout << "Iveskite pazymi dar karta: ";
+                        cin >> pazym;
                     }
                 }
 
@@ -72,9 +73,10 @@ int main() {
                         throw runtime_error("Pazymiai negali buti > 10");
                 }
                 catch(runtime_error& e) {
-                    cout << "Klaida" << e.what() << endl;
+                    cout << "Klaida " << e.what() << endl;
+                    cout << "Ivesk egzamino ivertinima dar karta: ";
+                    cin >> studentai[i].egzaminas;
                 }
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
             else {
                 int ndSk = generuoti_atsitiktini(1, 10);
@@ -92,7 +94,7 @@ int main() {
     
     sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b)
     {
-        return a.vardas < b.vardas;
+        return a.pavarde < b.pavarde;
     });
 
     cout << "Pasirinkite, kaip skaiciuoti bala ( v - vidurkis, m - mediana):";
