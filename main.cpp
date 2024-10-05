@@ -12,9 +12,20 @@ int main() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     if (pasirinkite == 'y') {
-        cout << "Failo pavadinimas: ";
+        cout << "Ar norite skaityti is atsitiktiniu studento failo? (y/n):";
+        cin >> pasirinkite;
         string failas;
-        cin >> failas;
+        if (pasirinkite == 'y') {
+            cout << "Iveskite kiek studentu sugeneruoti (pvz. 1 000, 1 0000, 10 000, ... 10 000 000:";
+            int skaicius_studentu;
+            cin >> skaicius_studentu;
+            failas = "studentai_" + to_string(skaicius_studentu) + ".txt";
+            generuoti_studentus_failui(failas, skaicius_studentu);
+        }
+        else {
+            cout << "Failo pavadinimas: ";
+            cin >> failas;
+        }
         nuskaityti_faila(failas, studentai);
     }
     else {
@@ -91,7 +102,7 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
-    
+
     sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b)
     {
         return a.pavarde < b.pavarde;
