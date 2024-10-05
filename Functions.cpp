@@ -27,31 +27,44 @@ int generuoti_atsitiktini(int min, int max) {
 void nuskaityti_faila(const string& failo_pavadinimas, vector<Studentas>& studentai) {
     ifstream failas(failo_pavadinimas);
     if (!failas.is_open()) {
-        cout << "Nepavyko atidaryti failo:" << endl;
+        cout << "Nepavyko atidaryti failo: " << failo_pavadinimas << endl;
         return;
     }
+   
+    string antraste;
+    getline(failas, antraste);
 
-    string pavarde, vardas;
-    int nd;
+    int Buffer_size = 1000000;  // Buferio dydis
+    vector<char> buffer(Buffer_size);  // Buferis duomenims laikyti
+    istringstream iss;  // Įvesties srautas eilučių apdorojimui
 
-    failas.ignore(numeric_limits<streamsize>::max(), '\n');
+    while (failas.read(buffer.data(), Buffer_size) || failas.gcount() > 0) {
+        streamsize bytes_read = failas.gcount();  // Kiek duomenų nuskaityta
+        iss.clear();  // Išvalome srauto būseną
+        iss.str(string(buffer.data(), bytes_read));  // Sukuriame srautą iš nuskaityto buferio
 
-    while (failas >> pavarde >> vardas) {
-        Studentas studentas;
-        studentas.pavarde = pavarde;
-        studentas.vardas = vardas;
+        string line;
+        while (getline(iss, line)) {
+            if (!line.empty()) {
+                istringstream line_stream(line);  // Sukuriame srautą eilutei
+                Studentas studentas;
+                line_stream >> studentas.vardas >> studentas.pavarde;  // Nuskaitome vardą ir pavardę
 
-        while (failas >> nd) {
-            if (failas.peek() == '\n') break;
-            studentas.namuDarbai.push_back(nd);
+                int pazym;
+                while (line_stream >> pazym) {
+                    studentas.namuDarbai.push_back(pazym);  // Dedame pažymius
+                }
+
+                // Egzamino pažymys yra paskutinis, todėl priskiriame jį atskirai
+                if (!studentas.namuDarbai.empty()) {
+                    studentas.egzaminas = studentas.namuDarbai.back();  // Paskutinis pažymys yra egzaminas
+                    studentas.namuDarbai.pop_back();  // Pašaliname egzaminą iš namų darbų sąrašo
+                }
+
+                studentai.push_back(studentas);  // Pridedame studentą į vektorių
+            }
         }
-
-        studentas.egzaminas = studentas.namuDarbai.back(); // Assign last value to exam score
-        studentas.namuDarbai.pop_back(); // Remove last value from homework
-
-        studentai.push_back(studentas);
-
-        failas.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    failas.close();
+
+    failas.close();  // Uždaryti failą
 }
