@@ -20,7 +20,7 @@ double mediana(const vector<int>& nd, int egzaminas) {
 }
 
 int generuoti_atsitiktini(int min, int max) {
-    srand(time(nullptr)); // Set seed for random number generator
+    srand(time(nullptr)); 
     return min + rand() % (max - min + 1);
 }
 
@@ -67,4 +67,48 @@ void nuskaityti_faila(const string& failo_pavadinimas, vector<Studentas>& studen
     }
 
     failas.close();  // Uždaryti failą
+}
+
+string generuoti_varda_pavarde(int studento_numeris) {
+    return "Vardas" + to_string(studento_numeris) + " Pavarde" + to_string(studento_numeris);
+}
+
+// Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
+vector<int> generuoti_atsitiktinius_pazymius() {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> pazymiai_dist(1, 10); // Pažymiai tarp 1 ir 10
+
+    vector<int> pazymiai;
+    int namu_darbai_count = 5;  // 5 namų darbai
+    for (int i = 0; i < namu_darbai_count; ++i) {
+        pazymiai.push_back(pazymiai_dist(gen));
+    }
+
+    int egzaminas = pazymiai_dist(gen);  // Egzamino pažymys
+    pazymiai.push_back(egzaminas);  // Paskutinis pažymys yra egzaminas
+
+    return pazymiai;
+}
+
+// Funkcija, kuri sugeneruoja failą su atsitiktiniais studentais
+void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_skaicius) {
+    ofstream failas(failo_pavadinimas);
+
+    // Pirmoji eilutė - antraštė
+    failas << "Vardas Pavarde ND1 ND2 ND3 ND4 ND5 Egzaminas" << endl;
+
+    for (int i = 0; i < studentu_skaicius; ++i) {
+        string vardas_ir_pavarde = generuoti_varda_pavarde(i + 1); // Pridedame 1, kad numeriai prasidėtų nuo 1
+        vector<int> pazymiai = generuoti_atsitiktinius_pazymius();
+
+        failas << vardas_ir_pavarde << " ";
+        for (size_t j = 0; j < pazymiai.size(); ++j) {
+            failas << pazymiai[j];
+            if (j != pazymiai.size() - 1) failas << " ";  // Tarp pažymių dedame tarpą
+        }
+        failas << endl;
+    }
+
+    failas.close();
 }
