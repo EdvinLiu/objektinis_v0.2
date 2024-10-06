@@ -112,3 +112,32 @@ void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_sk
 
     failas.close();
 }
+void suskirstyti_studentus(const vector<Studentas>& studentai, char pasirinkite) {
+    vector<Studentas> vargsiukai; // Studentai su galutiniu balu < 5
+    vector<Studentas> kietiakiai; // Studentai su galutiniu balu >= 5
+
+    for (const auto& studentas : studentai) {
+        if (studentas.galutinis < 5.0) {
+            // Pridedame studentą į vargšiukų vektorių
+            vargsiukai.push_back(studentas);
+        }
+        else {
+            // Pridedame studentą į kietiakio vektorių
+            kietiakiai.push_back(studentas);
+        }
+    }
+    failo_spausdinimas(vargsiukai, "vargsiukai.txt",pasirinkite);
+    failo_spausdinimas(kietiakiai, "kietiakiai.txt",pasirinkite);
+
+}
+void failo_spausdinimas(const vector<Studentas>& studentai,string failas,char pasirinkite)
+{
+    ofstream fr(failas);
+    fr << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(15)
+        << (pasirinkite == 'v' ? "galutinis(Vid.)" : "Galutinis(Med.)") << endl;
+    for (const auto& studentas : studentai) {
+        fr << setw(15) << left << studentas.vardas << setw(15) << studentas.pavarde
+            << setw(10) << fixed << setprecision(2) << studentas.galutinis << endl;
+    }
+    fr.close();
+}
