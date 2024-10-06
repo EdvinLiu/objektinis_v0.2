@@ -2,7 +2,6 @@
 #include "Functions.h"
 #include "Studentas.h"
 
-
 int main() {
     vector<Studentas> studentai;
     char pasirinkite;
