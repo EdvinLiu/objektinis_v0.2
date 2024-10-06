@@ -16,7 +16,7 @@ int main() {
         cin >> pasirinkite;
         string failas;
         if (pasirinkite == 'y') {
-            cout << "Iveskite kiek studentu sugeneruoti (pvz. 1 000, 1 0000, 10 000, ... 10 000 000:";
+            cout << "Iveskite kiek studentu sugeneruoti (pvz. 1 000, 10 000, 100 000, ... 10 000 000:";
             int skaicius_studentu;
             cin >> skaicius_studentu;
             failas = "studentai_" + to_string(skaicius_studentu) + ".txt";
@@ -26,7 +26,17 @@ int main() {
             cout << "Failo pavadinimas: ";
             cin >> failas;
         }
+
+        auto start = high_resolution_clock::now();
+
         nuskaityti_faila(failas, studentai);
+
+        auto end = high_resolution_clock::now();
+
+        duration<double> duration = end - start;
+
+        cout << fixed << setprecision(4);
+        cout << "Nuskaitymo funkcija uztruko: " << duration.count() << endl;
     }
     else {
         int studentuSkaicius;
@@ -110,14 +120,45 @@ int main() {
 
     cout << "Pasirinkite, kaip skaiciuoti bala ( v - vidurkis, m - mediana):";
     cin >> pasirinkite;
-    cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(15)
-        << (pasirinkite == 'v' ? "galutinis(Vid.)" : "Galutinis(Med.)") << endl;
-
-    for (const auto& studentas : studentai) {
-        double galutinisBalas = (pasirinkite == 'v') ? galutinis(studentas.namuDarbai, studentas.egzaminas) : mediana(studentas.namuDarbai, studentas.egzaminas);
-        cout << setw(15) << left << studentas.vardas << setw(15) << studentas.pavarde
-            << setw(10) << fixed << setprecision(2) << galutinisBalas << endl;
+    if (pasirinkite == 'v')
+    {
+        for (auto& studentas : studentai)
+            studentas.galutinis = galutinis(studentas.namuDarbai, studentas.egzaminas);
+    }
+    else
+    {
+        for (auto& studentas : studentai)
+            studentas.galutinis = mediana(studentas.namuDarbai, studentas.egzaminas);
     }
 
+
+
+    vector<Studentas> vargsiukai; // Studentai su galutiniu balu < 5
+    vector<Studentas> kietiakiai; // Studentai su galutiniu balu >= 5
+    auto start = high_resolution_clock::now();
+    for (const auto& studentas : studentai) {
+        if (studentas.galutinis < 5.0) {
+            // Pridedame studentą į vargšiukų vektorių
+            vargsiukai.push_back(studentas);
+        }
+        else {
+            // Pridedame studentą į kietiakio vektorių
+            kietiakiai.push_back(studentas);
+        }
+    }
+    auto end = high_resolution_clock::now();
+
+    duration<double> duration = end - start;
+    cout << fixed << setprecision(4);
+    cout << "Rusiavimas i dvi grupes uztruko: " << duration.count() << endl;
+
+    start = high_resolution_clock::now();
+    failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
+    failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
+    end = high_resolution_clock::now();
+
+    duration = end - start;
+    cout << fixed << setprecision(4);
+    cout << "Spausdinimas i du failus uztruko: " << duration.count() << endl;
     return 0;
 }
