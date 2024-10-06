@@ -1,6 +1,7 @@
 #ifndef LIBRARY_H_INCLUDED
 #define LIBRARY_H_INCLUDED
 
+
 #include <iostream>
 #include <vector>
 #include <numeric>
@@ -12,7 +13,10 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <random>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 #endif // LIBRARY_H_INCLUDED
