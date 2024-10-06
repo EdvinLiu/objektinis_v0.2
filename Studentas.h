@@ -8,6 +8,8 @@ struct Studentas {
     std::string pavarde;
     std::vector<int> namuDarbai;
     int egzaminas;
+    double galutinis;
+    int tipas; //jei 0 tai galutinis balas yra < 5 (vargsiukas).   Jei >=5 tai 1 (kietiakiai)
 };
 
 #endif // STUDENTAS_H_INCLUDED
