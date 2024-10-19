@@ -43,7 +43,13 @@ Nuskaitymas is failų: 0.19
 Rūšiavimas į grupės: 0.019
 Išvedimas į failus: 0.0535
 
+
 Su 100 000 studentu:
 Nuskaitymas is failų: 1.92
 Rūšiavimas į grupės: 0.36
 Išvedimas į failus: 0.524
+
+Su 1 000 000 studentu:
+Nuskaitymas is failų: 19.177
+Rūšiavimas į grupės: 2.964
+Išvedimas į failus: 5.391
