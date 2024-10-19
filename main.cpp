@@ -2,6 +2,7 @@
 #include "Functions.h"
 #include "Studentas.h"
 
+
 int main() {
     vector<Studentas> studentai;
     char pasirinkite;
@@ -19,7 +20,12 @@ int main() {
             int skaicius_studentu;
             cin >> skaicius_studentu;
             failas = "studentai_" + to_string(skaicius_studentu) + ".txt";
+            auto start = high_resolution_clock::now();
             generuoti_studentus_failui(failas, skaicius_studentu);
+            auto end = high_resolution_clock::now();
+            duration<double> duration = end - start;
+            cout << fixed << setprecision(4);
+            cout << "Atsitiktiniu studentu irasymo funkcija i faila uztruko: " << duration.count() << endl;
         }
         else {
             cout << "Failo pavadinimas: ";
