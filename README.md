@@ -31,6 +31,8 @@ Nuskaitymas is failų: 0.02
 Rūšiavimas į grupės: 0.004
 Išvedimas į failus: 0.006
 
+
+
 Su list vietoje vector:
 
 Su 1 000 studentu:
@@ -43,7 +45,6 @@ Nuskaitymas is failų: 0.19
 Rūšiavimas į grupės: 0.019
 Išvedimas į failus: 0.0535
 
-
 Su 100 000 studentu:
 Nuskaitymas is failų: 1.92
 Rūšiavimas į grupės: 0.36
@@ -53,3 +54,8 @@ Su 1 000 000 studentu:
 Nuskaitymas is failų: 19.177
 Rūšiavimas į grupės: 2.964
 Išvedimas į failus: 5.391
+
+Su 10 000 000 studentu:
+Nuskaitymas is failų: 191.5
+Rūšiavimas į grupės: 59.723
+Išvedimas į failus: 59.04
