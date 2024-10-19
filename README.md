@@ -59,3 +59,11 @@ Su 10 000 000 studentu:
 Nuskaitymas is failų: 191.5
 Rūšiavimas į grupės: 59.723
 Išvedimas į failus: 59.04
+
+
+
+Testavimo sistemos specifikacijos:
+
+CPU: i5 12500H
+RAM: 8x2GB  16GB RAM 
+NVME: 500gb
