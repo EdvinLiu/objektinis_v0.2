@@ -34,44 +34,31 @@ void nuskaityti_faila(const string& failo_pavadinimas, vector<Studentas>& studen
     string antraste;
     getline(failas, antraste);
 
-    int Buffer_size = 1000000;  // Buferio dydis
-    vector<char> buffer(Buffer_size);  // Buferis duomenims laikyti
-    istringstream iss;  // Įvesties srautas eilučių apdorojimui
+    string line;
+    while (getline(failas, line)) {
+        if (!line.empty()) {
+            istringstream line_stream(line);  // Sukuriame srautą eilutei
+            Studentas studentas;
+            line_stream >> studentas.vardas >> studentas.pavarde;  // Nuskaitome vardą ir pavardę
 
-    while (failas.read(buffer.data(), Buffer_size) || failas.gcount() > 0) {
-        streamsize bytes_read = failas.gcount();  // Kiek duomenų nuskaityta
-        iss.clear();  // Išvalome srauto būseną
-        iss.str(string(buffer.data(), bytes_read));  // Sukuriame srautą iš nuskaityto buferio
-
-        string line;
-        while (getline(iss, line)) {
-            if (!line.empty()) {
-                istringstream line_stream(line);  // Sukuriame srautą eilutei
-                Studentas studentas;
-                line_stream >> studentas.vardas >> studentas.pavarde;  // Nuskaitome vardą ir pavardę
-
-                int pazym;
-                while (line_stream >> pazym) {
-                    studentas.namuDarbai.push_back(pazym);  // Dedame pažymius
-                }
-
-                // Egzamino pažymys yra paskutinis, todėl priskiriame jį atskirai
-                if (!studentas.namuDarbai.empty()) {
-                    studentas.egzaminas = studentas.namuDarbai.back();  // Paskutinis pažymys yra egzaminas
-                    studentas.namuDarbai.pop_back();  // Pašaliname egzaminą iš namų darbų sąrašo
-                }
-
-                studentai.push_back(studentas);  // Pridedame studentą į vektorių
+            int pazym;
+            while (line_stream >> pazym) {
+                studentas.namuDarbai.push_back(pazym);  // Dedame pažymius
             }
+
+            // Egzamino pažymys yra paskutinis, todėl priskiriame jį atskirai
+            if (!studentas.namuDarbai.empty()) {
+                studentas.egzaminas = studentas.namuDarbai.back();  // Paskutinis pažymys yra egzaminas
+                studentas.namuDarbai.pop_back();  // Pašaliname egzaminą iš namų darbų sąrašo
+            }
+
+            studentai.push_back(studentas);  // Pridedame studentą į sąrašą
         }
     }
 
     failas.close();  // Uždaryti failą
 }
 
-string generuoti_varda_pavarde(int studento_numeris) {
-    return "Vardas" + to_string(studento_numeris) + " Pavarde" + to_string(studento_numeris);
-}
 
 // Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
 vector<int> generuoti_atsitiktinius_pazymius() {
@@ -99,13 +86,16 @@ void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_sk
     failas << "Vardas Pavarde ND1 ND2 ND3 ND4 ND5 Egzaminas" << endl;
 
     for (int i = 0; i < studentu_skaicius; ++i) {
-        string vardas_ir_pavarde = generuoti_varda_pavarde(i + 1); // Pridedame 1, kad numeriai prasidėtų nuo 1
-        vector<int> pazymiai = generuoti_atsitiktinius_pazymius();
+        string vardas_ir_pavarde = "Vardas" + to_string(i + 1) + " Pavarde" + to_string(i + 1);
+        vector<int> pazymiai;
+        for (int j = 0; j < 5; ++j) {
+            pazymiai.push_back(generuoti_atsitiktini(1, 10));  // Namu darbai
+        }
+        pazymiai.push_back(generuoti_atsitiktini(1, 10));  // Egzaminas
 
         failas << vardas_ir_pavarde << " ";
-        for (size_t j = 0; j < pazymiai.size(); ++j) {
-            failas << pazymiai[j];
-            if (j != pazymiai.size() - 1) failas << " ";  // Tarp pažymių dedame tarpą
+        for (auto& pazymys : pazymiai) {
+            failas << pazymys << " ";
         }
         failas << endl;
     }
