@@ -30,3 +30,10 @@ Asitiktiniu kurimas:0.024
 Nuskaitymas is failų: 0.02
 Rūšiavimas į grupės: 0.004
 Išvedimas į failus: 0.006
+
+Su list vietoje vector:
+
+Su 1 000 studentu:
+Nuskaitymas is failų: 0.02
+Rūšiavimas į grupės: 0.0032
+Išvedimas į failus: 0.012
