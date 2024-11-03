@@ -87,16 +87,16 @@ Išvedimas į failus: 51.3006
 
 Rusiavimas i du failus pagal 2 strategiją (List):
 Su 1 000 studentų:
-Rūšiavimas į grupės:
-Išvedimas į failus:
+Rūšiavimas į grupės:0.0017
+Išvedimas į failus: 0.0076
 
 Su 10 000 studentų:
-Rūšiavimas į grupės: 
-Išvedimas į failus:
+Rūšiavimas į grupės: 0.0103
+Išvedimas į failus: 0.0528
 
 Su 100 000 studentų:
-Rūšiavimas į grupės: 
-Išvedimas į failus:
+Rūšiavimas į grupės:  0.3750
+Išvedimas į failus: 3.8433
 
 Su 1 000 000 studentų:
 Rūšiavimas į grupės: 0.778
