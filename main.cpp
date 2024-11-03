@@ -233,6 +233,28 @@ void vykdyti_programa(Container& studentai) {
         failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
         failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
     }
+    else if (strategija == 2) {
+        Container vargsiukai; // Studentai su galutiniu balu < 5
+        auto start = high_resolution_clock::now();
+        for (auto it = studentai.begin(); it != studentai.end();) {
+            if (it->galutinis < 5.0) {
+                vargsiukai.push_back(*it);
+                it = studentai.erase(it); // Pašalinti studentą iš pagrindinės konteinerio
+            }
+            else {
+                ++it;
+            }
+        }
+        auto end = high_resolution_clock::now();
+
+
+        duration<double> duration = end - start;
+        cout << fixed << setprecision(4);
+        cout << "Rusiavimas i vargšiukus užtruko: " << duration.count() << endl;
+
+        failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
+        failo_spausdinimas(studentai, "kietiakiai.txt", pasirinkite)
+    }
     else {
         cout << "Pasirinkta neteisinga strategija!" << endl;
     }
