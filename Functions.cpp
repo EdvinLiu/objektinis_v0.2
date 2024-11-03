@@ -20,7 +20,7 @@ double mediana(const vector<int>& nd, int egzaminas) {
 }
 
 int generuoti_atsitiktini(int min, int max) {
-    srand(time(nullptr)); 
+    srand(time(nullptr));
     return min + rand() % (max - min + 1);
 }
 
@@ -30,7 +30,7 @@ void nuskaityti_faila(const string& failo_pavadinimas, vector<Studentas>& studen
         cout << "Nepavyko atidaryti failo: " << failo_pavadinimas << endl;
         return;
     }
-   
+
     string antraste;
     getline(failas, antraste);
 
@@ -116,11 +116,11 @@ void suskirstyti_studentus(const vector<Studentas>& studentai, char pasirinkite)
             kietiakiai.push_back(studentas);
         }
     }
-    failo_spausdinimas(vargsiukai, "vargsiukai.txt",pasirinkite);
-    failo_spausdinimas(kietiakiai, "kietiakiai.txt",pasirinkite);
+    failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
+    failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
 
 }
-void failo_spausdinimas(const vector<Studentas>& studentai,string failas,char pasirinkite)
+void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char pasirinkite)
 {
     ofstream fr(failas);
     fr << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(15)
