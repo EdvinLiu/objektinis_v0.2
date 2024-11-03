@@ -106,7 +106,27 @@ Su 10 000 000 studentų:
 Rūšiavimas į grupės: 8.0032
 Išvedimas į failus: 51.6910
 
+Rusiavimas i du failus pagal 1 strategiją (Vector):
+Su 1 000 studentų:
+Rūšiavimas į grupės: 0.014
+Išvedimas į failus: 0.0398
 
+
+Su 10 000 studentų:
+Rūšiavimas į grupės: 0.0368
+Išvedimas į failus: 0.0639
+
+Su 100 000 studentų:
+Rūšiavimas į grupės: 0.3477
+Išvedimas į failus: 0.5191
+
+Su 1 000 000 studentų:
+Rūšiavimas į grupės: 3.2113
+Išvedimas į failus: 4.5960
+
+Su 10 000 000 studentų:
+Rūšiavimas į grupės: 40.5429
+Išvedimas į failus: 51.6977
 
 
 Testavimo sistemos specifikacijos:
