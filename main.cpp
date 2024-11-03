@@ -1,189 +1,226 @@
 #include "library.h"
 #include "Functions.h"
 #include "Studentas.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <iomanip>
+#include <string>
+#include <stdexcept>
+#include <chrono>
+#include <limits>
 
+using namespace std;
+using namespace std::chrono;
 
 template <typename Container>
-void nuskaityti_faila(const std::string& failoPavadinimas, Container& studentai) {
-    std::ifstream failas(failoPavadinimas);
-    if (!failas.is_open()) {
-        std::cout << "Nepavyko atidaryti failo: " << failoPavadinimas << std::endl;
+void failo_spausdinimas(const Container& studentai, const string& failas, char pasirinkite) {
+    ofstream output(failas);
+    if (!output.is_open()) {
+        cout << "Nepavyko atidaryti failo: " << failas << endl;
         return;
     }
 
-    Studentas studentas;
-    while (failas >> studentas.vardas >> studentas.pavarde) {
-        studentas.namuDarbai.clear();
-        for (int i = 0; i < 5; ++i) { // Tarkime, kad namų darbų yra 5
-            int pazymys;
-            failas >> pazymys;
-            studentas.namuDarbai.push_back(pazymys);
-        }
-        failas >> studentas.egzaminas;
-        studentai.push_back(studentas);
+    for (const auto& studentas : studentai) {
+        output << studentas.vardas << " " << studentas.pavarde << " " << studentas.galutinis << endl;
     }
 
-    failas.close();
+    output.close();
+}
+
+template <typename Container>
+void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai) {
+    ifstream failas(failo_pavadinimas);
+    if (!failas.is_open()) {
+        cout << "Nepavyko atidaryti failo: " << failo_pavadinimas << endl;
+        return;
+    }
+
+    string antraste;
+    getline(failas, antraste);
+
+    int Buffer_size = 1000000;  // Buferio dydis
+    vector<char> buffer(Buffer_size);  // Buferis duomenims laikyti
+    istringstream iss;  // Įvesties srautas eilučių apdorojimui
+
+    while (failas.read(buffer.data(), Buffer_size) || failas.gcount() > 0) {
+        streamsize bytes_read = failas.gcount();  // Kiek duomenų nuskaityta
+        iss.clear();  // Išvalome srauto būseną
+        iss.str(string(buffer.data(), bytes_read));  // Sukuriame srautą iš nuskaityto buferio
+
+        string line;
+        while (getline(iss, line)) {
+            if (!line.empty()) {
+                istringstream line_stream(line);  // Sukuriame srautą eilutei
+                Studentas studentas;
+                line_stream >> studentas.vardas >> studentas.pavarde;  // Nuskaitome vardą ir pavardę
+
+                int pazym;
+                while (line_stream >> pazym) {
+                    studentas.namuDarbai.push_back(pazym);  // Dedame pažymius
+                }
+
+                // Egzamino pažymys yra paskutinis, todėl priskiriame jį atskirai
+                if (!studentas.namuDarbai.empty()) {
+                    studentas.egzaminas = studentas.namuDarbai.back();  // Paskutinis pažymys yra egzaminas
+                    studentas.namuDarbai.pop_back();  // Pašaliname egzaminą iš namų darbų sąrašo
+                }
+
+                studentai.push_back(studentas);  // Pridedame studentą į vektorių
+            }
+        }
+    }
+
+    failas.close();  // Uždaryti failą
 }
 
 
 template <typename Container>
-void generuoti_studentus_failui(const std::string& failoPavadinimas, int kiekis, Container& studentai) {
-    std::ofstream failas(failoPavadinimas);
-    for (int i = 0; i < kiekis; ++i) {
-        Studentas studentas;
-        studentas.vardas = "Vardas" + std::to_string(i + 1);
-        studentas.pavarde = "Pavarde" + std::to_string(i + 1);
-        studentas.namuDarbai = { generuoti_atsitiktini(1, 10), generuoti_atsitiktini(1, 10),
-                                 generuoti_atsitiktini(1, 10), generuoti_atsitiktini(1, 10),
-                                 generuoti_atsitiktini(1, 10) };
-        studentas.egzaminas = generuoti_atsitiktini(1, 10);
-        studentai.push_back(studentas);
-    }
-    
-
-
-// Funkcija, kuri vykdo pagrindinę programą
-template <typename Container>
 void vykdyti_programa(Container& studentai) {
-        char pasirinkite;
+    char pasirinkite;
 
-        cout << "Ar norite nuskaityti duomenis is failo (y/n)? ";
+    cout << "Ar norite nuskaityti duomenis is failo (y/n)? ";
+    cin >> pasirinkite;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if (pasirinkite == 'y') {
+        cout << "Ar norite skaityti is atsitiktiniu studento failo? (y/n): ";
         cin >> pasirinkite;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
+        string failas;
         if (pasirinkite == 'y') {
-            cout << "Ar norite skaityti is atsitiktiniu studento failo? (y/n):";
-            cin >> pasirinkite;
-            string failas;
-            if (pasirinkite == 'y') {
-                cout << "Iveskite kiek studentu sugeneruoti (pvz. 1 000, 10 000, 100 000, ... 10 000 000): ";
-                int skaicius_studentu;
-                cin >> skaicius_studentu;
-                failas = "studentai_" + to_string(skaicius_studentu) + ".txt";
-                auto start = high_resolution_clock::now();
-                generuoti_studentus_failui(failas, skaicius_studentu);
-                auto end = high_resolution_clock::now();
-                duration<double> duration = end - start;
-                cout << fixed << setprecision(4);
-                cout << "Atsitiktiniu studentu irasymo funkcija i faila uztruko: " << duration.count() << endl;
-            }
-            else {
-                cout << "Failo pavadinimas: ";
-                cin >> failas;
-            }
-
+            cout << "Iveskite kiek studentu sugeneruoti (pvz. 1 000, 10 000, 100 000, ... 10 000 000): ";
+            int skaicius_studentu;
+            cin >> skaicius_studentu;
+            failas = "studentai_" + to_string(skaicius_studentu) + ".txt";
             auto start = high_resolution_clock::now();
-            nuskaityti_faila(failas, studentai);
+            generuoti_studentus_failui(failas, skaicius_studentu);
             auto end = high_resolution_clock::now();
             duration<double> duration = end - start;
             cout << fixed << setprecision(4);
-            cout << "Nuskaitymo funkcija uztruko: " << duration.count() << endl;
+            cout << "Atsitiktiniu studentu irasymo funkcija i faila uztruko: " << duration.count() << endl;
         }
         else {
-            int studentuSkaicius;
-            cout << "Iveskite studentu skaiciu: ";
-            cin >> studentuSkaicius;
+            cout << "Failo pavadinimas: ";
+            cin >> failas;
+        }
+
+        auto start = high_resolution_clock::now();
+        nuskaityti_faila(failas, studentai);
+        auto end = high_resolution_clock::now();
+        duration<double> duration = end - start;
+        cout << fixed << setprecision(4);
+        cout << "Nuskaitymo funkcija uztruko: " << duration.count() << endl;
+    }
+    else {
+        int studentuSkaicius;
+        cout << "Iveskite studentu skaiciu: ";
+        cin >> studentuSkaicius;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        for (int i = 0; i < studentuSkaicius; i++) {
+            Studentas studentas;
+            cout << "Studentas " << i + 1 << ":\n";
+            cout << "Iveskite studento varda: ";
+            getline(cin, studentas.vardas);
+
+            cout << "Iveskite studento pavarde: ";
+            getline(cin, studentas.pavarde);
+
+            char pasirinkimas;
+            cout << "Ar norite patys ivesti namu darbu ir egzamino pazymius? (t/n): ";
+            cin >> pasirinkimas;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-            for (int i = 0; i < studentuSkaicius; i++) {
-                Studentas studentas;
-                cout << "Studentas " << i + 1 << ":\n";
-                cout << "Iveskite studento varda: ";
-                getline(cin, studentas.vardas);
+            if (pasirinkimas == 't') {
+                cout << "Iveskite namu darbu pazymius (norint baigti spauskite Enter):\n";
+                int pazym;
+                while (true) {
+                    string input;
+                    getline(cin, input);
+                    if (input.empty()) break;
 
-                cout << "Iveskite studento pavarde: ";
-                getline(cin, studentas.pavarde);
+                    pazym = stoi(input);
 
-                char pasirinkimas;
-                cout << "Ar norite patys ivesti namu darbu ir egzamino pazymius? (t/n): ";
-                cin >> pasirinkimas;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-                if (pasirinkimas == 't') {
-                    cout << "Iveskite namu darbu pazymius (norint baigti spauskite Enter):\n";
-                    int pazym;
-                    while (true) {
-                        string input;
-                        getline(cin, input);
-                        if (input.empty()) break;
-
-                        pazym = stoi(input);
-
-                        try {
-                            if (pazym > 10)
-                                throw runtime_error("Pazymiai negali buti > 10");
-                            if (pazym < 0)
-                                throw runtime_error("Pazymiai negali buti < 0");
-                            studentas.namuDarbai.push_back(pazym);
-                        }
-                        catch (runtime_error& e) {
-                            cout << "Klaida " << e.what() << endl;
-                            cout << "Iveskite pazymi dar karta: ";
-                        }
-                    }
-
-                    cout << "Iveskite egzamino pazymi: ";
                     try {
-                        cin >> studentas.egzaminas;
-                        if (studentas.egzaminas < 0)
-                            throw runtime_error("Ivestas neigiamas skaicius");
-                        if (studentas.egzaminas > 10)
+                        if (pazym > 10)
                             throw runtime_error("Pazymiai negali buti > 10");
+                        if (pazym < 0)
+                            throw runtime_error("Pazymiai negali buti < 0");
+                        studentas.namuDarbai.push_back(pazym);
                     }
                     catch (runtime_error& e) {
                         cout << "Klaida " << e.what() << endl;
-                        cout << "Iveskite egzamino ivertinima dar karta: ";
-                        cin >> studentas.egzaminas;
+                        cout << "Iveskite pazymi dar karta: ";
                     }
                 }
-                else {
-                    int ndSk = generuoti_atsitiktini(1, 10);
-                    for (int j = 0; j < ndSk; j++) {
-                        int pazymys = generuoti_atsitiktini(1, 10);
-                        studentas.namuDarbai.push_back(pazymys);
-                    }
 
-                    studentas.egzaminas = generuoti_atsitiktini(1, 10);
+                cout << "Iveskite egzamino pazymi: ";
+                try {
+                    cin >> studentas.egzaminas;
+                    if (studentas.egzaminas < 0)
+                        throw runtime_error("Ivestas neigiamas skaicius");
+                    if (studentas.egzaminas > 10)
+                        throw runtime_error("Pazymiai negali buti > 10");
                 }
-
-                studentai.push_back(studentas);
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                catch (runtime_error& e) {
+                    cout << "Klaida " << e.what() << endl;
+                    cout << "Iveskite egzamino ivertinima dar karta: ";
+                    cin >> studentas.egzaminas;
+                }
             }
-        }
+            else {
+                int ndSk = generuoti_atsitiktini(1, 10);
+                for (int j = 0; j < ndSk; j++) {
+                    int pazymys = generuoti_atsitiktini(1, 10);
+                    studentas.namuDarbai.push_back(pazymys);
+                }
 
-        if constexpr (std::is_same<Container, std::vector<Studentas>>::value) {
-            std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-                return a.pavarde < b.pavarde;
-                });
-        }
-        else if constexpr (std::is_same<Container, std::list<Studentas>>::value) {
-            studentai.sort([](const Studentas& a, const Studentas& b) {
-                return a.pavarde < b.pavarde;
-                });
-        }
+                studentas.egzaminas = generuoti_atsitiktini(1, 10);
+            }
 
-        cout << "Pasirinkite, kaip skaiciuoti bala (v - vidurkis, m - mediana): ";
-        cin >> pasirinkite;
-        if (pasirinkite == 'v') {
-            for (auto& studentas : studentai)
-                studentas.galutinis = galutinis(studentas.namuDarbai, studentas.egzaminas);
+            studentai.push_back(studentas);
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
-        else {
-            for (auto& studentas : studentai)
-                studentas.galutinis = mediana(studentas.namuDarbai, studentas.egzaminas);
-        }
+    }
 
-        vector<Studentas> vargsiukai; // Studentai su galutiniu balu < 5
-        vector<Studentas> kietiakiai; // Studentai su galutiniu balu >= 5
+    if constexpr (std::is_same<Container, std::vector<Studentas>>::value) {
+        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
+            return a.pavarde < b.pavarde;
+            });
+    }
+    else if constexpr (std::is_same<Container, std::list<Studentas>>::value) {
+        studentai.sort([](const Studentas& a, const Studentas& b) {
+            return a.pavarde < b.pavarde;
+            });
+    }
+
+
+    cout << "Pasirinkite, kaip skaiciuoti bala (v - vidurkis, m - mediana): ";
+    cin >> pasirinkite;
+    if (pasirinkite == 'v') {
+        for (auto& studentas : studentai)
+            studentas.galutinis = galutinis(studentas.namuDarbai, studentas.egzaminas);
+    }
+    else {
+        for (auto& studentas : studentai)
+            studentas.galutinis = mediana(studentas.namuDarbai, studentas.egzaminas);
+    }
+
+    cout << "Pasirinkite skaidymo strategija (1, 2 arba 3): ";
+    int strategija;
+    cin >> strategija;
+
+    if (strategija == 1) {
+        Container vargsiukai; // Studentai su galutiniu balu < 5
+        Container kietiakiai; // Studentai su galutiniu balu >= 5
         auto start = high_resolution_clock::now();
         for (const auto& studentas : studentai) {
             if (studentas.galutinis < 5.0) {
-                // Pridedame studentą į vargšiukų vektorių
                 vargsiukai.push_back(studentas);
             }
             else {
-                // Pridedame studentą į kietiakio vektorių
                 kietiakiai.push_back(studentas);
             }
         }
@@ -191,58 +228,32 @@ void vykdyti_programa(Container& studentai) {
 
         duration<double> duration = end - start;
         cout << fixed << setprecision(4);
-        cout << "Rusiavimas i dvi grupes uztruko: " << duration.count() << endl;
+        cout << "Rusiavimas i vargšiukus ir kietiakius užtruko: " << duration.count() << endl;
 
-        start = high_resolution_clock::now();
         failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
         failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
-        end = high_resolution_clock::now();
-
-        duration = end - start;
-        cout << fixed << setprecision(4);
-        cout << "Spausdinimas i du failus uztruko: " << duration.count() << endl;
+    }
+    else {
+        cout << "Pasirinkta neteisinga strategija!" << endl;
+    }
 }
 
 int main() {
-    char konteineris;
-    cout << "Pasirinkite duomenu struktura (v - vector, l - list): ";
-    cin >> konteineris;
+    char pasirinkimas;
+    cout << "Pasirinkite studentu konteineri (v - vector, l - list): ";
+    cin >> pasirinkimas;
 
-    // Apibrėžiamas studentų konteineris, remiantis vartotojo pasirinkimu
-    if (konteineris == 'v') {
+    if (pasirinkimas == 'v') {
         vector<Studentas> studentai;
-        vykdyti_programa(studentai); // Funkcija, kuri vykdo pagrindinį kodą
+        vykdyti_programa(studentai);
     }
-    else if (konteineris == 'l') {
+    else if (pasirinkimas == 'l') {
         list<Studentas> studentai;
-        vykdyti_programa(studentai); // Funkcija, kuri vykdo pagrindinį kodą
+        vykdyti_programa(studentai);
     }
     else {
-        cout << "Neteisingas pasirinkimas." << endl;
-        return 1;
+        cout << "Pasirinkimas neteisingas." << endl;
     }
 
     return 0;
-}
-failas.close();
-}
-
-
-template <typename Container>
-void failo_spausdinimas(const Container& studentai, const std::string& failas, char pasirinkite) {
-    std::ofstream output(failas);
-    if (!output.is_open()) {
-        std::cout << "Nepavyko atidaryti failo: " << failas << std::endl;
-        return;
-    }
-
-    for (const auto& studentas : studentai) {
-        output << studentas.vardas << " " << studentas.pavarde << " ";
-        for (const auto& nd : studentas.namuDarbai) {
-            output << nd << " ";
-        }
-        output << studentas.egzaminas << std::endl;
-    }
-
-    output.close();
 }
