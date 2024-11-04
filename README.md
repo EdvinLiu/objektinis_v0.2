@@ -144,12 +144,12 @@ Rūšiavimas į grupės: 2147.6912
 Išvedimas į failus: 3.4982
 
 Su 1 000 000 studentų:
-Rūšiavimas į grupės: 
-Išvedimas į failus: 
+Rūšiavimas į grupės: ___
+Išvedimas į failus: 4.5960
 
 Su 10 000 000 studentų:
-Rūšiavimas į grupės: 
-Išvedimas į failus: 
+Rūšiavimas į grupės: ___
+Išvedimas į failus: 51.6977
 
 
 Testavimo sistemos specifikacijos:
