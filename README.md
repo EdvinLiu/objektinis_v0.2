@@ -1,5 +1,16 @@
 # Objektinis-progrmavimas-C-
+Norint paleisti programą: reikia įdetgti cmake, tada paleisti run.bat failą ir atsiradusiame debug aplankale .exe failas yra galimas naudoti norit įjungti programą.
+
+v0.1 Sukurta funkciją, kurį gaunant studentų pažymius, gali apskaičiavus jų galutini pažymį išvesti į komandinę eilutę.
+v0.2 Programa išmoko skaityti ir išvestį į failą. Pradėjo dalinti studentus į vargšiukus ir kietiakius.
+v0.3 Naudotojas gavo galimybę pasirinkti kokį konteinerį naudoti: vector ar list.
+v1.0 Galima pasirinkti kokią strategiją (vieną iš trijų) naudoti, kad padalintume studentus į dų tipus.
+
+
 Atliktos programos veikimo greičio analizę su 1 000, 10 000, 100 000, 1 000 000, 10 000 000 studentu.
+Iš greičio rezultatų matome, kad geriausia strategiją veikianti vector konteineriui yra 1.
+Tuomet list konteineriui - 2.
+Jei palygintume list ir vector konteinerius tai galima daryti išvada, kad  list yra greitesnis rūšiavime į grupes.
 
 Su 10 000 000 studentu:
 Asitiktiniu kurimas: 155.6
