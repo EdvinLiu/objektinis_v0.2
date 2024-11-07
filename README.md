@@ -106,6 +106,29 @@ Su 10 000 000 studentų:
 Rūšiavimas į grupės: 8.0032
 Išvedimas į failus: 51.6910
 
+
+Rusiavimas i du failus pagal 3 strategiją (List):
+Su 1 000 studentų:
+Rūšiavimas į grupės: 
+Išvedimas į failus: 
+
+
+Su 10 000 studentų:
+Rūšiavimas į grupės: 
+Išvedimas į failus: 
+
+Su 100 000 studentų:
+Rūšiavimas į grupės: 
+Išvedimas į failus: 
+
+Su 1 000 000 studentų:
+Rūšiavimas į grupės: 1.3092
+Išvedimas į failus: 4.7587
+
+Su 10 000 000 studentų:
+Rūšiavimas į grupės: 19.7546
+Išvedimas į failus: 52.8525
+
 Rusiavimas i du failus pagal 1 strategiją (Vector):
 Su 1 000 studentų:
 Rūšiavimas į grupės: 0.014
