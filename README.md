@@ -167,12 +167,12 @@ Rūšiavimas į grupės: 0.3872
 Išvedimas į failus: 0.5352
 
 Su 1 000 000 studentų:
-Rūšiavimas į grupės: 
-Išvedimas į failus: 
+Rūšiavimas į grupės: 3.4898
+Išvedimas į failus: 4.6951
 
 Su 10 000 000 studentų:
-Rūšiavimas į grupės:
-Išvedimas į failus: 
+Rūšiavimas į grupės: 54.0266
+Išvedimas į failus: 51.6146
 
 Testavimo sistemos specifikacijos:
 
