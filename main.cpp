@@ -185,18 +185,6 @@ void vykdyti_programa(Container& studentai) {
         }
     }
 
-    if constexpr (std::is_same<Container, std::vector<Studentas>>::value) {
-        std::sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-            return a.pavarde < b.pavarde;
-            });
-    }
-    else if constexpr (std::is_same<Container, std::list<Studentas>>::value) {
-        studentai.sort([](const Studentas& a, const Studentas& b) {
-            return a.pavarde < b.pavarde;
-            });
-    }
-
-
     cout << "Pasirinkite, kaip skaiciuoti bala (v - vidurkis, m - mediana): ";
     cin >> pasirinkite;
     if (pasirinkite == 'v') {
@@ -211,6 +199,33 @@ void vykdyti_programa(Container& studentai) {
     cout << "Pasirinkite skaidymo strategija (1, 2 arba 3): ";
     int strategija;
     cin >> strategija;
+
+    char rusiavimas;
+    cout << "Rusiuoti pagal: varda (v), pavarde (p) arba galutini (g)? ";
+    cin >> rusiavimas;
+
+    if constexpr (is_same<Container, vector<Studentas>>::value) {
+        if (rusiavimas == 'v') {
+            sort(studentai.begin(), studentai.end(), pagal_varda);
+        }
+        if (rusiavimas == 'p') {
+            sort(studentai.begin(), studentai.end(), pagal_pavarde);
+        }
+        if (rusiavimas == 'g') {
+            sort(studentai.begin(), studentai.end(), pagal_galutini);
+        }
+    }
+    else if constexpr (is_same<Container, list<Studentas>>::value) {
+        if (rusiavimas == 'v') {
+            studentai.sort(pagal_varda);
+        }
+        if (rusiavimas == 'p') {
+            studentai.sort(pagal_pavarde);
+        }
+        if (rusiavimas == 'g') {
+            studentai.sort(pagal_galutini);
+        }
+    }
 
     if (strategija == 1) {
         Container vargsiukai; // Studentai su galutiniu balu < 5
@@ -228,10 +243,17 @@ void vykdyti_programa(Container& studentai) {
 
         duration<double> duration = end - start;
         cout << fixed << setprecision(4);
-        cout << "Rusiavimas i vargšiukus ir kietiakius užtruko: " << duration.count() << endl;
+        cout << "Rusiavimas i vargsiukus ir kietiakius uztruko: " << duration.count() << endl;
 
+
+
+        start = high_resolution_clock::now();
         failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
         failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
+        end = high_resolution_clock::now();
+        duration = end - start;
+        cout << fixed << setprecision(4);
+        cout << "Spausdinimas i failus uztruko: " << duration.count() << endl;
     }
     else if (strategija == 2) {
         Container vargsiukai; // Studentai su galutiniu balu < 5
@@ -250,13 +272,54 @@ void vykdyti_programa(Container& studentai) {
 
         duration<double> duration = end - start;
         cout << fixed << setprecision(4);
-        cout << "Rusiavimas i vargšiukus užtruko: " << duration.count() << endl;
+        cout << "Rusiavimas uztruko: " << duration.count() << endl;
 
+        char rusiavimas;
+        cout << "Rusiuoti pagal: varda (v), pavarde (p) arba galutini (g)? ";
+        cin >> rusiavimas;
+
+
+        start = high_resolution_clock::now();
         failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
-        failo_spausdinimas(studentai, "kietiakiai.txt", pasirinkite)
+        failo_spausdinimas(studentai, "kietiakiai.txt", pasirinkite);
+        end = high_resolution_clock::now();
+        duration = end - start;
+        cout << fixed << setprecision(4);
+        cout << "Isvedimas uztruko: " << duration.count() << endl;
     }
     else {
-        cout << "Pasirinkta neteisinga strategija!" << endl;
+        auto start = high_resolution_clock::now();
+
+        // Partition atskiria studentus vietoje ir grąžina iteratorių į pirmą "kietiakių" elementą
+        auto it = std::partition(studentai.begin(), studentai.end(), [](const Studentas& s) {
+            return s.galutinis < 5.0;
+            });
+
+        // Sukuriame „vargsiukų“ ir „kietiakių“ konteinerius ir kopijuojame pagal rūšiavimo rezultatą
+        Container vargsiukai;
+        Container kietiakiai;
+        std::copy(studentai.begin(), it, std::back_inserter(vargsiukai));
+        std::copy(it, studentai.end(), std::back_inserter(kietiakiai));
+
+        auto end = high_resolution_clock::now();
+        duration<double> duration = end - start;
+        cout << fixed << setprecision(4);
+
+        cout << "Rusiavimas su partition uztruko: " << duration.count() << " sek." << endl;
+
+        char rusiavimas;
+        cout << "Rusiuoti pagal: varda (v), pavarde (p) arba galutini (g)? ";
+        cin >> rusiavimas;
+
+
+        // Failų spausdinimas naudojant copy_if algoritmą
+        start = high_resolution_clock::now();
+        failo_spausdinimas(vargsiukai, "vargsiukai.txt", pasirinkite);
+        failo_spausdinimas(kietiakiai, "kietiakiai.txt", pasirinkite);
+        end = high_resolution_clock::now();
+        duration = end - start;
+        cout << fixed << setprecision(4);
+        cout << "Spausdinimas i failus uztruko: " << duration.count() << " sek." << endl;
     }
 }
 
