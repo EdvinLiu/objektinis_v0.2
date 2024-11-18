@@ -12,5 +12,8 @@ void nuskaityti_faila(const std::string& failo_pavadinimas, std::vector<Studenta
 void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_skaicius);
 void suskirstyti_studentus(const vector<Studentas>& studentai, char pasirinkite);
 void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char pasirinkite);
+int pagal_pavarde(Studentas& s, Studentas& s2);
+int pagal_varda(Studentas& s, Studentas& s2);
+int pagal_galutini(Studentas& s, Studentas& s2);
 
 #endif // FUNCTIONS_H_INCLUDED
