@@ -63,19 +63,21 @@ void nuskaityti_faila(const string& failo_pavadinimas, vector<Studentas>& studen
 // Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
 vector<int> generuoti_atsitiktinius_pazymius() {
     random_device rd;
+
+    // Initialize Mersenne Twister pseudo-random number generator
     mt19937 gen(rd());
-    uniform_int_distribution<> pazymiai_dist(1, 10); // Pažymiai tarp 1 ir 10
 
-    vector<int> pazymiai;
-    int namu_darbai_count = 5;  // 5 namų darbai
-    for (int i = 0; i < namu_darbai_count; ++i) {
-        pazymiai.push_back(pazymiai_dist(gen));
+    // Generate pseudo-random numbers
+    // uniformly distributed in range (1, 100)
+    uniform_int_distribution<> dis(1, 10);
+
+    // Generate ten pseudo-random numbers
+    vector<int> randomX;
+    for (int i = 0; i < 6; i++)
+    {
+        randomX.push_back(dis(gen));
     }
-
-    int egzaminas = pazymiai_dist(gen);  // Egzamino pažymys
-    pazymiai.push_back(egzaminas);  // Paskutinis pažymys yra egzaminas
-
-    return pazymiai;
+    return randomX;
 }
 
 // Funkcija, kuri sugeneruoja failą su atsitiktiniais studentais
@@ -88,11 +90,7 @@ void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_sk
     for (int i = 0; i < studentu_skaicius; ++i) {
         string vardas_ir_pavarde = "Vardas" + to_string(i + 1) + " Pavarde" + to_string(i + 1);
         vector<int> pazymiai;
-        for (int j = 0; j < 5; ++j) {
-            pazymiai.push_back(generuoti_atsitiktini(1, 10));  // Namu darbai
-        }
-        pazymiai.push_back(generuoti_atsitiktini(1, 10));  // Egzaminas
-
+        pazymiai = generuoti_atsitiktinius_pazymius();
         failas << vardas_ir_pavarde << " ";
         for (auto& pazymys : pazymiai) {
             failas << pazymys << " ";
@@ -130,4 +128,31 @@ void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char 
             << setw(10) << fixed << setprecision(2) << studentas.galutinis << endl;
     }
     fr.close();
+}
+int pagal_varda(Studentas& s, Studentas& s2) {
+    if (s.vardas != s2.vardas)
+    {
+        return s.vardas < s2.vardas;
+    }
+    else {
+        return s.pavarde < s2.pavarde;
+    }
+}
+int pagal_pavarde(Studentas& s, Studentas& s2) {
+    if (s.pavarde != s2.pavarde)
+    {
+        return s.pavarde < s2.pavarde;
+    }
+    else {
+        return s.vardas < s2.vardas;
+    }
+}
+int pagal_galutini(Studentas& s, Studentas& s2) {
+    if (s.galutinis != s2.galutinis)
+    {
+        return s.galutinis < s2.galutinis;
+    }
+    else {
+        return s.galutinis > s2.galutinis;
+    }
 }
