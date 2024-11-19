@@ -130,29 +130,29 @@ void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char 
     fr.close();
 }
 int pagal_varda(Studentas& s, Studentas& s2) {
-    if (s.vardas != s2.vardas)
+    if (s.vardas() != s2.vardas())
     {
-        return s.vardas < s2.vardas;
+        return s.vardas() < s2.vardas();
     }
     else {
-        return s.pavarde < s2.pavarde;
+        return s.pavarde() < s2.pavarde();
     }
 }
 int pagal_pavarde(Studentas& s, Studentas& s2) {
-    if (s.pavarde != s2.pavarde)
+    if (s.pavarde() != s2.pavarde())
     {
-        return s.pavarde < s2.pavarde;
+        return s.pavarde() < s2.pavarde();
     }
     else {
-        return s.vardas < s2.vardas;
+        return s.vardas() < s2.vardas();
     }
 }
 int pagal_galutini(Studentas& s, Studentas& s2) {
-    if (s.galutinis != s2.galutinis)
+    if (s.galutinis() != s2.galutinis())
     {
-        return s.galutinis < s2.galutinis;
+        return s.galutinis() < s2.galutinis();
     }
     else {
-        return s.galutinis > s2.galutinis;
+        return s.galutinis() > s2.galutinis();
     }
 }
