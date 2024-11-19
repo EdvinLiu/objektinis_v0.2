@@ -3,13 +3,13 @@
 
 using namespace std;
 
-double galutinis(const vector<int>& nd, int egzaminas) {
+double galutinis(const vector<double>& nd, int egzaminas) {
     double suma_nd = accumulate(nd.begin(), nd.end(), 0);
     return (suma_nd / nd.size()) * 0.4 + 0.6 * egzaminas;
 }
 
-double mediana(const vector<int>& nd, int egzaminas) {
-    vector<int> sortednd = nd;
+double mediana(const vector<double>& nd, int egzaminas) {
+    vector<double> sortednd = nd;
     sort(sortednd.begin(), sortednd.end());
     size_t size = sortednd.size();
 
