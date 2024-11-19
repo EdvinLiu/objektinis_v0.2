@@ -15,6 +15,8 @@ Jei palygintume list ir vector konteinerius tai galima daryti išvada, kad  list
 
 Taip pat palyginimo greitį tarp Struct ir Class: 
 ![image](https://github.com/user-attachments/assets/5080c894-b8bd-4dc7-9c3e-a410b7771c3c)
+![image](https://github.com/user-attachments/assets/52b28d6f-3eee-44d1-8deb-9904a72839db)
+
 
 
 
