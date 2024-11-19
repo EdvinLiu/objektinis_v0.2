@@ -23,6 +23,8 @@ int generuoti_atsitiktini(int min, int max) {
     srand(time(nullptr));
     return min + rand() % (max - min + 1);
 }
+
+
 // Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
 vector<int> generuoti_atsitiktinius_pazymius() {
     random_device rd;
@@ -63,6 +65,7 @@ void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_sk
 
     failas.close();
 }
+
 void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char pasirinkite)
 {
     ofstream fr(failas);
