@@ -13,6 +13,10 @@ Tuomet list konteineriui - 2.
 Jei palygintume list ir vector konteinerius tai galima daryti išvada, kad  list yra greitesnis rūšiavime į grupes.
 ![image](https://github.com/user-attachments/assets/2cea66a4-53ac-4798-a12e-001de0c68034)
 
+Taip pat palyginimo greitį tarp Struct ir Class: 
+![image](https://github.com/user-attachments/assets/5080c894-b8bd-4dc7-9c3e-a410b7771c3c)
+
+
 
 Su 10 000 000 studentu:
 Asitiktiniu kūrimas: 155.6
