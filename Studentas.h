@@ -17,6 +17,7 @@ private:
 public:
 	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd, const int galutinis)
 		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
+	~Studentas(){}
 
 	// Getteriai
 	std::string vardas() const { return vardas_; }
@@ -42,5 +43,5 @@ public:
 	}
 };
 
-#endif // STUDENTAS_H
+#endif //STUDENTAS_H
 
