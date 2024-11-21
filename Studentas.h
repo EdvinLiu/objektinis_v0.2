@@ -1,16 +1,47 @@
-#ifndef STUDENTAS_H_INCLUDED
-#define STUDENTAS_H_INCLUDED
+#ifndef STUDENTAS_H
+#define STUDENTAS_H
 
-#include "library.h"
+#include <vector>
+#include <string>
 
-struct Studentas {
-    std::string vardas;
-    std::string pavarde;
-    std::vector<int> namuDarbai;
-    int egzaminas;
-    double galutinis;
-    int tipas; //jei 0 tai galutinis balas yra < 5 (vargsiukas).   Jei >=5 tai 1 (kietiakiai)
+using namespace std;
+
+class Studentas {
+private:
+	std::string vardas_;
+	std::string pavarde_;
+	double egzaminas_;
+	std::vector<double> nd_;
+	double galutinis_;
+	// interfeisas
+public:
+	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd, const int galutinis)
+		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
+	~Studentas(){}
+
+	// Getteriai
+	std::string vardas() const { return vardas_; }
+	std::string pavarde() const { return pavarde_; }
+	double egzaminas() const { return egzaminas_; }
+	std::vector<double> nd() const { return nd_; }
+	double galutinis() const { return galutinis_; }
+
+	void setVardas(string vardas) {
+		vardas_ = vardas;
+	}
+	void setPavarde(string pavarde) {
+		pavarde_ = pavarde;
+	}
+	void setEgzaminas(double egzaminas) {
+		egzaminas_ = egzaminas;
+	}
+	void setnd(vector<double> nd) {
+		nd_ = nd;
+	}
+	void setGalutinis(double galutinis) {
+		galutinis_ = galutinis;
+	}
 };
 
-#endif // STUDENTAS_H_INCLUDED
+#endif //STUDENTAS_H
 
