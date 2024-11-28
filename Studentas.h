@@ -28,6 +28,15 @@ public:
 	Studentas(const Studentas& other)
 		: vardas_(other.vardas_), pavarde_(other.pavarde_),
 		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
+	Studentas& operator=(const Studentas& other) {
+		if (this == &other) return *this;  // Pats sau nepriskiria
+		vardas_ = other.vardas_;
+		pavarde_ = other.pavarde_;
+		egzaminas_ = other.egzaminas_;
+		nd_ = other.nd_;
+		galutinis_ = other.galutinis_;
+		return *this;
+	}
 
 	// Getteriai
 	std::string vardas() const { return vardas_; }
