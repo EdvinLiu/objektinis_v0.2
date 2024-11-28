@@ -1,16 +1,6 @@
 #include "library.h"
 #include "Functions.h"
 #include "Studentas.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <list>
-#include <algorithm>
-#include <iomanip>
-#include <string>
-#include <stdexcept>
-#include <chrono>
-#include <limits>
 
 using namespace std;
 using namespace std::chrono;
@@ -70,7 +60,7 @@ void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai) {
                     namuDarbai.pop_back();  // Pašaliname egzaminą iš namų darbų sąrašo
                 }
 
-                studentai.emplace_back(vardas,pavarde,egzaminas,namuDarbai,0);  // Pridedame studentą į vektorių
+                studentai.emplace_back(vardas, pavarde, egzaminas, namuDarbai, 0);  // Pridedame studentą į vektorių
             }
         }
     }
@@ -196,7 +186,6 @@ void vykdyti_programa(Container& studentai) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
-
     cout << "Pasirinkite, kaip skaiciuoti bala (v - vidurkis, m - mediana): ";
     cin >> pasirinkite;
     if (pasirinkite == 'v') {
@@ -221,7 +210,6 @@ void vykdyti_programa(Container& studentai) {
     char rusiavimas;
     cout << "Rusiuoti pagal: varda (v), pavarde (p) arba galutini (g)? ";
     cin >> rusiavimas;
-
     if constexpr (is_same<Container, vector<Studentas>>::value) {
         if (rusiavimas == 'v') {
             sort(studentai.begin(), studentai.end(), pagal_varda);
@@ -244,7 +232,12 @@ void vykdyti_programa(Container& studentai) {
             studentai.sort(pagal_galutini);
         }
     }
-
+    cout << "Ar reikia papildomai atspausdinti viska ekrane? (y/n) : ";
+    char pas;
+    cin >> pas;
+    if (pas == 'y') {
+        ekranospausdinimas(studentai);
+    }
     if (strategija == 1) {
         Container vargsiukai; // Studentai su galutiniu balu < 5
         Container kietiakiai; // Studentai su galutiniu balu >= 5
@@ -349,10 +342,24 @@ int main() {
     if (pasirinkimas == 'v') {
         vector<Studentas> studentai;
         vykdyti_programa(studentai);
+
+        vector<Studentas> copystudentai = studentai;
+        ekranospausdinimas(copystudentai);
+
+        vector<Studentas> operatorstudentai;
+        operatorstudentai = studentai;
+        ekranospausdinimas(operatorstudentai);
     }
     else if (pasirinkimas == 'l') {
         list<Studentas> studentai;
         vykdyti_programa(studentai);
+
+        list<Studentas> copystudentai = studentai;
+        ekranospausdinimas(studentai);
+
+        list<Studentas> operatorstudentai;
+        operatorstudentai = studentai;
+        ekranospausdinimas(studentai);
     }
     else {
         cout << "Pasirinkimas neteisingas." << endl;
