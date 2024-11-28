@@ -15,8 +15,14 @@ private:
 	double galutinis_;
 	// interfeisas
 public:
+	Studentas(): vardas_(""), pavarde_(""), egzaminas_(0), nd_(0), galutinis_(0.0) {}
+
+	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd)
+		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(0.0) {}
+
 	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd, const int galutinis)
 		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
+	
 	~Studentas(){}
 
 	// Getteriai
