@@ -78,6 +78,12 @@ void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai) {
     failas.close();  // Uždaryti failą
 }
 
+template <typename Container>
+void ekranospausdinimas(Container& studentai) {
+    for (const auto& studentas : studentai) {
+        cout << studentas.vardas() << " " << studentas.pavarde() << " " << studentas.galutinis() << endl;
+    }
+}
 
 template <typename Container>
 void vykdyti_programa(Container& studentai) {
