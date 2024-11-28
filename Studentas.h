@@ -25,6 +25,10 @@ public:
 	
 	~Studentas(){}
 
+	Studentas(const Studentas& other)
+		: vardas_(other.vardas_), pavarde_(other.pavarde_),
+		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
+
 	// Getteriai
 	std::string vardas() const { return vardas_; }
 	std::string pavarde() const { return pavarde_; }
