@@ -10,7 +10,6 @@
 
 double galutinis(const std::vector<double>& nd, int egzaminas);
 double mediana(const std::vector<double>& nd, int egzaminas);
-int generuoti_atsitiktini(int min, int max);
 void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_skaicius);
 int pagal_pavarde(Studentas& s, Studentas& s2);
 int pagal_varda(Studentas& s, Studentas& s2);
