@@ -19,12 +19,6 @@ double mediana(const vector<double>& nd, int egzaminas) {
         return (sortednd[size / 2]) * 0.4 + 0.6 * egzaminas;
 }
 
-int generuoti_atsitiktini(int min, int max) {
-    srand(time(nullptr));
-    return min + rand() % (max - min + 1);
-}
-
-
 // Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
 vector<int> generuoti_atsitiktinius_pazymius() {
     random_device rd;
