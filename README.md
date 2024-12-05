@@ -5,6 +5,16 @@ v0.1 Sukurta funkciją, kurį gaunant studentų pažymius, gali apskaičiavus j�
 v0.2 Programa išmoko skaityti ir išvestį į failą. Pradėjo dalinti studentus į vargšiukus ir kietiakius.
 v0.3 Naudotojas gavo galimybę pasirinkti kokį konteinerį naudoti: vector ar list.
 v1.0 Galima pasirinkti kokią strategiją (vieną iš trijų) naudoti, kad padalintume studentus į dų tipus.
+v1.1 Sukurta Klase su konstruktoriais ir destruktoriumi
+v1.2 Realizuoti metodai atitinkantis ,,Rule of three". Perdengti ivesties ir isvesties metodai.
+
+
+įvesties operatorius ">>":
+Gavus 'cin' - Klausia: vardą, pavardę, namų darbų pažymius ir egzamino pažymį. (Gali sugeneruoti atsitiktinius pažymius).
+Gavus ne 'cin' (skaitymas iš failo) skaito: vardą, pavardę, namų darbų pažymius, o paskutinį pažymį priskiria prie egzamino įvertinimo.
+
+Išvesties operatorius "<<":
+Atspausdina sulygiota teksta arba į ekraną , arba į failą, kur yra studento vardas, pavardė ir galutinis balas.
 
 
 Atliktos programos veikimo greičio analizę su 1 000, 10 000, 100 000, 1 000 000, 10 000 000 studentu.
