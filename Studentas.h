@@ -7,30 +7,60 @@
 
 using namespace std;
 
+/**
+ * @brief Bazinė klasė, apibūdinanti žmogų.
+ *
+ * Klasė Zmogus yra abstrakti klasė, kuri neleidžia kurti jos objektų tiesiogiai.
+ * Tai bus tik pagrindas kitoms klasėms, pavyzdžiui, Studentas.
+ */
 class Zmogus {
 protected:
-	string vardas_;
-	string pavarde_;
+	string vardas_; /**< Studentas vardas */
+	string pavarde_; /**< Studentas pavardė */
 
 public:
+	/**
+	 *@brief Konstruktorius be parametrų, inicijuoja vardą ir pavardę kaip tuščius stringus.
+	 */
 	Zmogus() : vardas_(""), pavarde_("") {}
+
+	/**
+	 * @brief Konstruktorius su parametrais, kuris nustato vardą ir pavardę.
+	 *
+	 * @param vardas Studentas vardas.
+	 * @param pavarde Studentas pavardė.
+	 */
 	Zmogus(const string& vardas, const string& pavarde) : vardas_(vardas), pavarde_(pavarde) {}
+
+	/**
+	* @brief Virtualus destruktorius, kad užtikrintų teisingą atminties valdymą išvestinėse klasėse.
+	*/
 	virtual ~Zmogus() = default;
 
 	virtual void print() const = 0;
 
+	/**@brief vardo ir pavardes setteriai
+	*/
 	string vardas() const { return vardas_; }
 	string pavarde() const { return pavarde_; }
 
 };
 
+/**
+ * @brief Klasė, apibūdinanti studentą, paveldinčią Zmogus klasę.
+ *
+ * Studentas klasė turi papildomus duomenis, tokius kaip egzaminų ir namų darbų pažymiai,
+ * bei metodus, skirtus manipuliuoti šiais duomenimis.
+ */
 class Studentas : public Zmogus {
 private:
-	double egzaminas_;
-	vector<double> nd_;
-	double galutinis_;
-	// interfeisas
+	double egzaminas_; /**< Egzamino pažymys */
+	vector<double> nd_; /**< Namų darbų pažymiai */
+	double galutinis_; /**< Galutinis pažymys */
 public:
+	/**
+	 * @brief Konstruktorius, kuris nustato pradinius parametrus.
+	 */
 	Studentas(): Zmogus(), egzaminas_(0), nd_(0), galutinis_(0.0) {}
 
 	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd)
@@ -40,14 +70,28 @@ public:
 		: Zmogus(vardas, pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
 
 
+	/**
+	 * @brief Destruktorius, kuris išvalys namų darbų vektorių.
+	 */
 	~Studentas(){
 		nd_.clear();
 	}
-
+	
+	/**
+	 * @brief Kopijavimo konstruktorius.
+	 *
+	 * @param other Kitas Studentas objektas, kurio duomenys bus nukopijuoti.
+	 */
 	Studentas(const Studentas& other) //copy constructor
 		: Zmogus(other.vardas_, other.pavarde_),
 		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
 
+	/**
+	 * @brief Kopijavimo priskyrimo operatorius.
+	 *
+	 * @param other Kitas Studentas objektas, kurio duomenys bus priskiriami.
+	 * @return Studentas& Grąžina šį objektą.
+	 */
 	Studentas& operator=(const Studentas& other) { //copy assignment operator
 		if (this == &other) return *this;  // Pats sau nepriskiria
 		vardas_ = other.vardas_;
@@ -59,7 +103,8 @@ public:
 	}
 
 
-	// Getteriai
+	/** Getteriai ir setteriai
+	*/
 	double egzaminas() const { return egzaminas_; }
 	std::vector<double> nd() const { return nd_; }
 	double galutinis() const { return galutinis_; }
@@ -84,7 +129,9 @@ public:
 		cout << "Studentas: " << vardas_ << " " << pavarde_ << ", egzaminas: " << egzaminas_ << ", galutinis: " << galutinis_ << endl;
 	}
 
-
+	/**
+	 * @brief Įveda studento duomenis.
+	 */
 	friend istream& operator>>(istream& in, Studentas& studentas) {
 		string vardas, pavarde;
 		double egzaminas;
@@ -170,6 +217,9 @@ public:
 		return in;
 	}
 
+	/**
+	 * @brief Išveda studento informaciją
+	 */
 	friend ostream& operator<<(ostream& os, const Studentas& s) {
 		os << left << setw(15) << s.vardas_
 			<< left << setw(20) << s.pavarde_
