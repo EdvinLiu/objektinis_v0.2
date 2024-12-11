@@ -16,6 +16,8 @@ public:
 	Zmogus(const string& vardas, const string& pavarde) : vardas_(vardas), pavarde_(pavarde) {}
 	virtual ~Zmogus() = default;
 
+	virtual void print() const = 0;
+
 	string vardas() const { return vardas_; }
 	string pavarde() const { return pavarde_; }
 
