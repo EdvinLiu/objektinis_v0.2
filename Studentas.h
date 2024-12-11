@@ -20,6 +20,7 @@ public:
 	string pavarde() const { return pavarde_; }
 
 };
+
 class Studentas : public Zmogus{
 private:
 	double egzaminas_;
