@@ -6,6 +6,7 @@
 #include <vector>
 
 using namespace std;
+
 class Zmogus {
 protected:
 	string vardas_;
@@ -80,9 +81,10 @@ public:
 	friend void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai);
 
 	void print() const override {
-	cout << "Studentas: " << vardas_ << " " << pavarde_ << ", egzaminas: " << egzaminas_ << ", galutinis: " << galutinis_ << endl;
+		cout << "Studentas: " << vardas_ << " " << pavarde_ << ", egzaminas: " << egzaminas_ << ", galutinis: " << galutinis_ << endl;
 	}
-	
+
+
 	friend istream& operator>>(istream& in, Studentas& studentas) {
 		string vardas, pavarde;
 		double egzaminas;
