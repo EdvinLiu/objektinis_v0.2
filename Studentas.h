@@ -42,7 +42,11 @@ public:
 		: vardas_(other.vardas_), pavarde_(other.pavarde_),
 		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
 
-	Studentas& operator=(const Studentas& other) {
+	Studentas(const Studentas& other) //copy constructor
+	: Zmogus(other.vardas_, other.pavarde_),
+	egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
+
+	Studentas& operator=(const Studentas& other) { //copy assignment operator
 		if (this == &other) return *this;  // Pats sau nepriskiria
 		vardas_ = other.vardas_;
 		pavarde_ = other.pavarde_;
