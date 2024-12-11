@@ -21,31 +21,29 @@ public:
 
 };
 
-class Studentas : public Zmogus{
+class Studentas : public Zmogus {
 private:
 	double egzaminas_;
-	std::vector<double> nd_;
+	vector<double> nd_;
 	double galutinis_;
 	// interfeisas
 public:
-	Studentas(): vardas_(""), pavarde_(""), egzaminas_(0), nd_(0), galutinis_(0.0) {}
+	Studentas(): Zmogus(), egzaminas_(0), nd_(0), galutinis_(0.0) {}
 
 	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd)
-		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(0.0) {}
+		: Zmogus(vardas, pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(0.0) {}
 
 	Studentas(const std::string& vardas, const std::string& pavarde, double egzaminas, const std::vector<double>& nd, const int galutinis)
-		: vardas_(vardas), pavarde_(pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
+		: Zmogus(vardas, pavarde), egzaminas_(egzaminas), nd_(nd), galutinis_(galutinis) {}
 
 
-	~Studentas(){}
-
-	Studentas(const Studentas& other)
-		: vardas_(other.vardas_), pavarde_(other.pavarde_),
-		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
+	~Studentas(){
+		nd_.clear();
+	}
 
 	Studentas(const Studentas& other) //copy constructor
-	: Zmogus(other.vardas_, other.pavarde_),
-	egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
+		: Zmogus(other.vardas_, other.pavarde_),
+		egzaminas_(other.egzaminas_), nd_(other.nd_), galutinis_(other.galutinis_) {}
 
 	Studentas& operator=(const Studentas& other) { //copy assignment operator
 		if (this == &other) return *this;  // Pats sau nepriskiria
@@ -62,7 +60,8 @@ public:
 	double egzaminas() const { return egzaminas_; }
 	std::vector<double> nd() const { return nd_; }
 	double galutinis() const { return galutinis_; }
-
+	
+	//Setteriai
 	void setEgzaminas(double egzaminas) {
 		egzaminas_ = egzaminas;
 	}
@@ -72,6 +71,7 @@ public:
 	void setGalutinis(double galutinis) {
 		galutinis_ = galutinis;
 	}
+
 	template <typename Container>
 	friend void failo_spausdinimas(const Container& studentai, const string& failas, char pasirinkite);
 	template <typename Container>
@@ -133,8 +133,12 @@ public:
 				}
 				egzaminas = rand() % 11;
 			}
-				studentas = Studentas(vardas, pavarde, egzaminas, namuDarbai, 0);
-				namuDarbai.clear(); // Išvalome vektorių kitam studentui
+			studentas.vardas_ = vardas;
+			studentas.pavarde_ = pavarde;
+			studentas.setnd(namuDarbai);
+			studentas.setEgzaminas(egzaminas);
+			studentas.setGalutinis(0);
+				namuDarbai.clear();
 		}
 		else {
 			in >> vardas >> pavarde;
@@ -149,10 +153,16 @@ public:
 				namuDarbai.pop_back();
 			}
 
-			studentas = Studentas(vardas, pavarde, egzaminas, namuDarbai, 0);
+			studentas.vardas_ = vardas;
+			studentas.pavarde_ = pavarde;
+			studentas.setnd(namuDarbai);
+			studentas.setEgzaminas(egzaminas);
+			studentas.setGalutinis(0);
+
 		}
 		return in;
 	}
+
 	friend ostream& operator<<(ostream& os, const Studentas& s) {
 		os << left << setw(15) << s.vardas_
 			<< left << setw(20) << s.pavarde_
