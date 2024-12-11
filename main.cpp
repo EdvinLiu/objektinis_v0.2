@@ -5,6 +5,16 @@
 using namespace std;
 using namespace std::chrono;
 
+/**
+ * @brief Išspausdina studentų informaciją į failą.
+ *
+ * Ši funkcija išspausdina visų studentų informaciją į nurodytą failą.
+ *
+ * @tparam Container Studentų konteinerio tipas (pvz., vector ar list).
+ * @param studentai Konteineris, kuriame saugomi studentų duomenys.
+ * @param failas Failo pavadinimas, kuriame bus išspausdinta informacija.
+ * @param pasirinkite Pasirinkimas, ar norima spausti į failą, ar atlikti kitus veiksmus.
+ */
 template <typename Container>
 void failo_spausdinimas(const Container& studentai, const string& failas, char pasirinkite) {
     ofstream output(failas);
@@ -20,6 +30,15 @@ void failo_spausdinimas(const Container& studentai, const string& failas, char p
     output.close();
 }
 
+/**
+ * @brief Nuskaityti studentų duomenis iš failo.
+ *
+ * Ši funkcija nuskaityti studentų duomenis iš failo ir įrašyti juos į nurodytą konteinerį.
+ *
+ * @tparam Container Studentų konteinerio tipas (pvz., vector ar list).
+ * @param failo_pavadinimas Failo pavadinimas, iš kurio bus nuskaitomi studentų duomenys.
+ * @param studentai Konteineris, į kurį bus įrašyti studentų duomenys.
+ */
 template <typename Container>
 void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai) {
     ifstream failas(failo_pavadinimas);
@@ -58,6 +77,14 @@ void nuskaityti_faila(const string& failo_pavadinimas, Container& studentai) {
     failas.close();  // Uždaryti failą
 }
 
+/**
+ * @brief Išspausdina studentų informaciją į ekraną.
+ *
+ * Ši funkcija išspausdina studentų informaciją į ekraną, rodydama vardą, pavardę ir galutinį balą.
+ *
+ * @tparam Container Studentų konteinerio tipas (pvz., vector ar list).
+ * @param studentai Konteineris, kuriame yra studentų duomenys.
+ */
 template <typename Container>
 void ekranospausdinimas(Container& studentai) {
     for (const auto& studentas : studentai) {
@@ -65,6 +92,15 @@ void ekranospausdinimas(Container& studentai) {
     }
 }
 
+/**
+ * @brief Vykdo pagrindinę programą, valdydama studentų duomenų nuskaitymą, apdorojimą ir išvedimą.
+ *
+ * Ši funkcija leidžia vartotojui pasirinkti, kaip bus nuskaityti ir apdorojami studentų duomenys,
+ * bei kokiu būdu bus apskaičiuotas galutinis balas.
+ *
+ * @tparam Container Studentų konteinerio tipas (pvz., vector ar list).
+ * @param studentai Konteineris, kuriame bus saugomi studentų duomenys.
+ */
 template <typename Container>
 void vykdyti_programa(Container& studentai) {
     char pasirinkite;
@@ -260,6 +296,14 @@ void vykdyti_programa(Container& studentai) {
     }
 }
 
+/**
+ * @brief Pagrindinė funkcija, paleidžianti programą.
+ *
+ * Ši funkcija leidžia pasirinkti konteinerį, kuriame bus saugomi studentų duomenys (vector arba list),
+ * ir pradeda programos vykdymą.
+ *
+ * @return 0, jei programa baigta sėkmingai.
+ */
 int main() {
     char pasirinkimas;
     cout << "Pasirinkite studentu konteineri (v - vector, l - list): ";
@@ -269,10 +313,10 @@ int main() {
         vector<Studentas> studentai;
         vykdyti_programa(studentai);
 
-        //vector<Studentas> copystudentai = studentai;
+        //vector<Studentas> copystudentai = studentai;  //copy constructor
         //ekranospausdinimas(copystudentai);
 
-        //vector<Studentas> operatorstudentai;
+        //vector<Studentas> operatorstudentai; //copy assignment operator
         //operatorstudentai = studentai;
         //ekranospausdinimas(operatorstudentai);
     }
