@@ -20,10 +20,8 @@ public:
 	string pavarde() const { return pavarde_; }
 
 };
-class Studentas {
+class Studentas : public Zmogus{
 private:
-	std::string vardas_;
-	std::string pavarde_;
 	double egzaminas_;
 	std::vector<double> nd_;
 	double galutinis_;
