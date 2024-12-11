@@ -3,11 +3,31 @@
 
 using namespace std;
 
+/**
+ * @brief Apskaičiuoja galutinį balą pagal vidurkį.
+ *
+ * Ši funkcija apskaičiuoja studento galutinį balą, naudojant namų darbų vidurkį (svoris 0.4)
+ * ir egzamino balą (svoris 0.6).
+ *
+ * @param nd Vektorius su studento namų darbų pažymiais.
+ * @param egzaminas Studentas egzamino balas.
+ * @return Galutinis balas.
+ */
 double galutinis(const vector<double>& nd, int egzaminas) {
     double suma_nd = accumulate(nd.begin(), nd.end(), 0);
     return (suma_nd / nd.size()) * 0.4 + 0.6 * egzaminas;
 }
 
+/**
+ * @brief Apskaičiuoja galutinį balą pagal medianą.
+ *
+ * Ši funkcija apskaičiuoja studento galutinį balą, naudojant namų darbų medianą (svoris 0.4)
+ * ir egzamino balą (svoris 0.6).
+ *
+ * @param nd Vektorius su studento namų darbų pažymiais.
+ * @param egzaminas Studentas egzamino balas.
+ * @return Galutinis balas.
+ */
 double mediana(const vector<double>& nd, int egzaminas) {
     vector<double> sortednd = nd;
     sort(sortednd.begin(), sortednd.end());
@@ -19,7 +39,14 @@ double mediana(const vector<double>& nd, int egzaminas) {
         return (sortednd[size / 2]) * 0.4 + 0.6 * egzaminas;
 }
 
-// Funkcija, kuri sugeneruoja atsitiktinius namų darbų pažymius ir egzaminą
+/**
+ * @brief Generuoja atsitiktinius namų darbų pažymius ir egzamino balą.
+ *
+ * Funkcija generuoja atsitiktinius namų darbų pažymius (nuo 1 iki 10) ir grąžina juos
+ * vektoriuje. Ši funkcija naudojama generuoti studentų duomenims.
+ *
+ * @return Vektorius su atsitiktiniais namų darbų pažymiais.
+ */
 vector<int> generuoti_atsitiktinius_pazymius() {
     random_device rd;
 
@@ -39,7 +66,15 @@ vector<int> generuoti_atsitiktinius_pazymius() {
     return randomX;
 }
 
-// Funkcija, kuri sugeneruoja failą su atsitiktiniais studentais
+/**
+ * @brief Generuoja failą su atsitiktiniais studentų duomenimis.
+ *
+ * Ši funkcija sugeneruoja failą su atsitiktiniais studentų duomenimis. Kiekvienas studentas
+ * turi atsitiktinius namų darbų pažymius ir egzamino balą.
+ *
+ * @param failo_pavadinimas Failo pavadinimas, į kurį bus išrašyti duomenys.
+ * @param studentu_skaicius Skaičius studentų, kuriems sugeneruojami duomenys.
+ */
 void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_skaicius) {
     ofstream failas(failo_pavadinimas);
 
@@ -60,17 +95,15 @@ void generuoti_studentus_failui(const string& failo_pavadinimas, int studentu_sk
     failas.close();
 }
 
-void failo_spausdinimas(const vector<Studentas>& studentai, string failas, char pasirinkite)
-{
-    ofstream fr(failas);
-    fr << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(15)
-        << (pasirinkite == 'v' ? "galutinis(Vid.)" : "Galutinis(Med.)") << endl;
-    for (const auto& studentas : studentai) {
-        fr << setw(15) << left << studentas.vardas() << setw(15) << studentas.pavarde()
-            << setw(10) << fixed << setprecision(2) << studentas.galutinis() << endl;
-    }
-    fr.close();
-}
+/**
+ * @brief Palygina studentus pagal vardą.
+ *
+ * Ši funkcija palygina du studentus pagal jų vardus. Jei vardai vienodi, palygina pagal pavardes.
+ *
+ * @param s Pirmas studentas.
+ * @param s2 Antras studentas.
+ * @return 1, jei pirmas studentas turi būti prieš antrą pagal abėcėlę, kitaip 0.
+ */
 int pagal_varda(Studentas& s, Studentas& s2) {
     if (s.vardas() != s2.vardas())
     {
@@ -80,6 +113,16 @@ int pagal_varda(Studentas& s, Studentas& s2) {
         return s.pavarde() < s2.pavarde();
     }
 }
+
+/**
+ * @brief Palygina studentus pagal pavardę.
+ *
+ * Ši funkcija palygina du studentus pagal jų pavardes. Jei pavardės vienodos, palygina pagal vardus.
+ *
+ * @param s Pirmas studentas.
+ * @param s2 Antras studentas.
+ * @return 1, jei pirmas studentas turi būti prieš antrą pagal abėcėlę, kitaip 0.
+ */
 int pagal_pavarde(Studentas& s, Studentas& s2) {
     if (s.pavarde() != s2.pavarde())
     {
@@ -89,6 +132,16 @@ int pagal_pavarde(Studentas& s, Studentas& s2) {
         return s.vardas() < s2.vardas();
     }
 }
+
+/**
+ * @brief Palygina studentus pagal galutinį balą.
+ *
+ * Ši funkcija palygina studentus pagal jų galutinį balą. Jei balai vienodi, palygina pagal pavardes.
+ *
+ * @param s Pirmas studentas.
+ * @param s2 Antras studentas.
+ * @return 1, jei pirmas studentas turi būti prieš antrą pagal galutinį balą, kitaip 0.
+ */
 int pagal_galutini(Studentas& s, Studentas& s2) {
     if (s.galutinis() != s2.galutinis())
     {
