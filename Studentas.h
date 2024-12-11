@@ -6,7 +6,20 @@
 #include <vector>
 
 using namespace std;
+class Zmogus {
+protected:
+	string vardas_;
+	string pavarde_;
 
+public:
+	Zmogus() : vardas_(""), pavarde_("") {}
+	Zmogus(const string& vardas, const string& pavarde) : vardas_(vardas), pavarde_(pavarde) {}
+	virtual ~Zmogus() = default;
+
+	string vardas() const { return vardas_; }
+	string pavarde() const { return pavarde_; }
+
+};
 class Studentas {
 private:
 	std::string vardas_;
