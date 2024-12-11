@@ -58,18 +58,10 @@ public:
 
 
 	// Getteriai
-	std::string vardas() const { return vardas_; }
-	std::string pavarde() const { return pavarde_; }
 	double egzaminas() const { return egzaminas_; }
 	std::vector<double> nd() const { return nd_; }
 	double galutinis() const { return galutinis_; }
 
-	void setVardas(string vardas) {
-		vardas_ = vardas;
-	}
-	void setPavarde(string pavarde) {
-		pavarde_ = pavarde;
-	}
 	void setEgzaminas(double egzaminas) {
 		egzaminas_ = egzaminas;
 	}
