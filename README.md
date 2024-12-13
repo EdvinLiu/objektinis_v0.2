@@ -7,7 +7,8 @@ v0.3 Naudotojas gavo galimybę pasirinkti kokį konteinerį naudoti: vector ar l
 v1.0 Galima pasirinkti kokią strategiją (vieną iš trijų) naudoti, kad padalintume studentus į dų tipus.
 v1.1 Sukurta Klase su konstruktoriais ir destruktoriumi
 v1.2 Realizuoti metodai atitinkantis ,,Rule of three". Perdengti ivesties ir isvesties metodai.
-
+v1.5 Padaryta abstrakti klasė Zmogus, jos objektų kūrimas negalimas.
+v2.0 Įkelta html dokumentacija ir padarytį Unit testai.
 
 įvesties operatorius ">>":
 Gavus 'cin' - Klausia: vardą, pavardę, namų darbų pažymius ir egzamino pažymį. (Gali sugeneruoti atsitiktinius pažymius).
