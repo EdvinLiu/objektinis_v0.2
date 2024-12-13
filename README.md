@@ -17,6 +17,10 @@ Išvesties operatorius "<<":
 Atspausdina sulygiota teksta arba į ekraną , arba į failą, kur yra studento vardas, pavardė ir galutinis balas.
 
 
+Realizuotas Unit testas per googletest framework. Čia pavaizduoti kaip buvo tikrinta ar gerai skaičiuoja galutini balą per vidurkį ir per medianą.
+![image](https://github.com/user-attachments/assets/83a5c450-802c-414f-9861-e7df17074548)
+
+
 Atliktos programos veikimo greičio analizę su 1 000, 10 000, 100 000, 1 000 000, 10 000 000 studentu.
 Iš greičio rezultatų matome, kad geriausia strategiją veikianti vector konteineriui yra 1.
 Tuomet list konteineriui - 2.
